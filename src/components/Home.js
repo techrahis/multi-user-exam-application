@@ -10,12 +10,12 @@ function Home() {
   useEffect(() => {
     getData();
   }, []);
-
   const getData = async () => {
-    const docRef = doc(db, "institute", "all");
+    const docRef = doc(db, "institutes", "users");
     const docSnap = await getDoc(docRef);
     setData(Object.entries(docSnap.data()));
   };
+
   return (
     <div>
       {data.length > 0 &&
@@ -23,7 +23,7 @@ function Home() {
           <Segment>
             <Feed
               name={data[1].name}
-              url="https://cdn.freelogovectors.net/wp-content/uploads/2021/04/indian-institute-of-science-logo-freelogovectors.net_.png"
+              url="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png"
               meta={data[1].address}
               description={data[1].bio}
               contact={data[1].phone}

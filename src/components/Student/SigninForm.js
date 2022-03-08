@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header, Button, Form } from "semantic-ui-react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useLoginContext } from "../context/LoginContext";
+import { useLoginContext } from "../../context/LoginContext";
 
 function SigninForm() {
+  const { logOut } = useLoginContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { logIn } = useLoginContext();
@@ -16,8 +17,13 @@ function SigninForm() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/", { replace: true });
-        logIn(user.email, "student");
+        if (user.displayName === "Student") {
+          navigate("/", { replace: true });
+          logIn(user.email, "Student");
+        } else {
+          alert("You are not a Student");
+          logOut();
+        }
       })
       .catch((error) => {
         alert(error.message);

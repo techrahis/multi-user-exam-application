@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Segment, Button } from "semantic-ui-react";
-import SigninForm from "./SigninForm";
-import SignupForm from "./SignupForm";
+import SigninForm from "./Student/SigninForm";
+import SignupForm from "./Student/SignupForm";
 
 export default class Signin extends Component {
   state = { activeItem: "Signin" };

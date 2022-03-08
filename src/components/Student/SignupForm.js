@@ -1,45 +1,50 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header, Button, Form } from "semantic-ui-react";
-import { auth, db } from "../Firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../Firebase/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useLoginContext } from "../context/LoginContext";
+import { useLoginContext } from "../../context/LoginContext";
 
-function SignupCollege() {
-  const { logIn } = useLoginContext();
+function SignupForm() {
   let navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
+  const { logIn } = useLoginContext();
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signUp = (e) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        // Signed in
         const user = userCredential.user;
-        console.log(user);
-        navigate("/", { replace: true });
-        logIn(user.email, "institute");
+        // ...
+        updateProfile(auth.currentUser, {
+          displayName: "Student"
+        }).then(() => {
+          // Profile updated!
+          // ...
+          navigate("/", { replace: true });
+          logIn(user.email, "Student");
+        }).catch((error) => {
+          alert(error.message);
+        });
       })
       .catch((error) => {
         alert(error.message);
       });
 
     try {
-      setDoc(
-        doc(db, "institute", "all"),
-        {
-          [email]: {
-            name: name,
-            bio: bio,
-            address: address,
-            phone: phone,
-          },
+      setDoc(doc(db, "students", "users"), 
+      {
+        [email]: {
+          firstName: fname,
+          lastName: lname,
+          email: email,
         },
-        { merge: true }
+      },
+      { merge: true }
       );
     } catch (e) {
       alert("Error adding document: ", e);
@@ -48,39 +53,23 @@ function SignupCollege() {
   return (
     <div>
       <Header as="h2" textAlign="center">
-        Institute Registration
+        Student Registration
       </Header>
       <Form>
         <Form.Group widths="equal">
           <Form.Input
             fluid
-            label="Name of the institute"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name of the institute"
+            label="First name"
+            value={fname}
+            onChange={(e) => setFname(e.target.value)}
+            placeholder="First name"
           />
           <Form.Input
             fluid
-            label="Short Bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Write a short bio..."
-          />
-        </Form.Group>
-        <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            label="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="Location of the institute"
-          />
-          <Form.Input
-            fluid
-            label="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Contact number"
+            label="Last name"
+            value={lname}
+            onChange={(e) => setLname(e.target.value)}
+            placeholder="Last name"
           />
         </Form.Group>
         <Form.Group widths="equal">
@@ -110,4 +99,4 @@ function SignupCollege() {
   );
 }
 
-export default SignupCollege;
+export default SignupForm;

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header, Button, Form } from "semantic-ui-react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useLoginContext } from "../context/LoginContext";
+import { useLoginContext } from "../../context/LoginContext";
 
 function SigninCollege() {
+  const { logOut } = useLoginContext();
   const { logIn } = useLoginContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,8 +17,13 @@ function SigninCollege() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/", { replace: true });
-        logIn(user.email, "institute");
+        if (user.displayName === "Institute") {
+          navigate("/", { replace: true });
+          logIn(user.email, "Institute");
+        } else {
+          alert("You are not an Institute");
+          logOut();
+        }
       })
       .catch((error) => {
         alert(error.message);

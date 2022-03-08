@@ -4,11 +4,16 @@ import { Link } from "react-router-dom";
 import { useLoginContext } from "../context/LoginContext";
 
 function Navbar() {
+  const { checkLogin } = useLoginContext();
   const { logOut } = useLoginContext();
   const { data } = useLoginContext();
   const [state, setState] = useState({ activeItem: "home" });
-  const handleItemClick = (e, { name }) => setState({ activeItem: name });
+  const handleItemClick = (e, { name }) => {
+    checkLogin();
+    setState({ activeItem: name });
+  };
   const { activeItem } = state;
+
   return (
     <div>
       <Menu inverted pointing primary>

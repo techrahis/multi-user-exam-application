@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
@@ -15,20 +15,20 @@ export function LoginContextProvider({ children }) {
   const [Info, setInfo] = useState();
   const [data, setData] = useState(DATA);
   function logIn(email, type) {
-    if (type === "institute") {
+    if (type === "Institute") {
       const getData = async () => {
-        const docRef = doc(db, "institute", "all");
+        const docRef = doc(db, "institutes", "users");
         const docSnap = await getDoc(docRef);
-        console.log(docSnap.data()[email]);
         setInfo(docSnap.data()[email]);
       };
       getData();
     }
-    if (type === "student") {
+    if (type === "Student") {
       const getData = async () => {
-        const docRef = doc(db, "users", email);
+        const docRef = doc(db, "students", "users");
         const docSnap = await getDoc(docRef);
-        setInfo(docSnap.data());
+        setInfo(docSnap.data()[email]);
+        console.log(Info);
       };
       getData();
     }
@@ -45,14 +45,26 @@ export function LoginContextProvider({ children }) {
         // An error happened.
       });
   }
+  async function checkLogin() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    let displayName, email;
+    if (user !== null) {
+      // The user object has basic properties such as display name, email, etc.
+      displayName = user.displayName;
+      email = user.email;
+      console.log(email, displayName);
+      logIn(email, displayName);
+    }
+  }
   return (
-    <LoginContext.Provider value={{ data, logIn, logOut }}>
+    <LoginContext.Provider value={{ data, checkLogin, logIn, logOut }}>
       {children}
     </LoginContext.Provider>
   );
 }
 
 export function useLoginContext() {
-  const { data, logIn, logOut } = useContext(LoginContext);
-  return { data, logIn, logOut };
+  const { data, checkLogin, logIn, logOut } = useContext(LoginContext);
+  return { data, checkLogin, logIn, logOut };
 }
