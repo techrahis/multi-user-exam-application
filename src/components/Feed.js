@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Item } from "semantic-ui-react";
+import { Button, Item } from "semantic-ui-react";
 
 function Feed(props) {
   return (
@@ -14,6 +14,9 @@ function Feed(props) {
             </Item.Description>
             <Item.Meta>{props.meta}</Item.Meta>
             <Item.Extra>{props.contact}</Item.Extra>
+            <Item.Extra>
+              <Button primary>Take Exam</Button>
+            </Item.Extra>
           </Item.Content>
         </Item>
       </Item.Group>

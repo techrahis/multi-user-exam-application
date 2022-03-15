@@ -28,7 +28,6 @@ export function LoginContextProvider({ children }) {
         const docRef = doc(db, "students", "users");
         const docSnap = await getDoc(docRef);
         setInfo(docSnap.data()[email]);
-        console.log(Info);
       };
       getData();
     }
@@ -53,7 +52,6 @@ export function LoginContextProvider({ children }) {
       // The user object has basic properties such as display name, email, etc.
       displayName = user.displayName;
       email = user.email;
-      console.log(email, displayName);
       logIn(email, displayName);
     }
   }
