@@ -6,7 +6,6 @@ import { db } from "../Firebase/firebase";
 
 function Home() {
   const [data, setData] = useState("");
-  const [data2, setData2] = useState("");
 
   useEffect(() => {
     getData();
@@ -15,6 +14,7 @@ function Home() {
     const docRef = doc(db, "examination", "all");
     const docSnap = await getDoc(docRef);
     setData(Object.entries(docSnap.data()));
+    console.log(data);
   };
 
   return (
@@ -23,9 +23,9 @@ function Home() {
         data.map((data) => (
           <Segment>
             <Feed
-              name={data[0]}
+              name={data[1].examname}
               url="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png"
-              meta={data[0][1].examname}
+              meta={data[0]}
               description={data[1].bio}
               contact={data[1].phone}
             />

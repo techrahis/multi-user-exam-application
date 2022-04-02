@@ -36,10 +36,10 @@ function Navbar() {
           </Link>
         )}
         {data.loginStatus && (
-          <Link to="/message">
+          <Link to="/takeexam">
             <Menu.Item
-              name="messages"
-              active={activeItem === "messages"}
+              name="Take exam"
+              active={activeItem === "takeexam"}
               onClick={handleItemClick}
             />
           </Link>

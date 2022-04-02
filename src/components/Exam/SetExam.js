@@ -102,12 +102,7 @@ function SetExam() {
       setDoc(
         doc(db, "examination", user.email),
         {
-          [examid]: {
-            questionData: questionData,
-            examname: examname,
-            duration: duration,
-            totalmarks: totalmarks,
-          },
+          [examid]: examid,
         },
         { merge: true }
       );
@@ -118,12 +113,11 @@ function SetExam() {
       setDoc(
         doc(db, "examination", "all"),
         {
-          [user.email]: {
-            [examid]: {
-              examname: examname,
-              duration: duration,
-              totalmarks: totalmarks,
-            },
+          [examid]: {
+            questionData: questionData,
+            examname: examname,
+            duration: duration,
+            totalmarks: totalmarks,
           },
         },
         { merge: true }
