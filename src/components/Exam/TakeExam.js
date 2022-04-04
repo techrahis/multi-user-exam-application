@@ -15,9 +15,10 @@ function TakeExam() {
   const { data } = useLoginContext();
   if (data.accountType === "Institute") {
     alert("Institute is not allowed to view exam page!");
+    window.history.back();
   } else if (data.accountType === null) {
     alert("SignIn to view exam page!");
-    window.location.href = "/";
+    window.history.back();
   }
 
   const [Edata, setEdata] = useState("");
@@ -116,7 +117,7 @@ function TakeExam() {
     return (Edata.totalmarks / 5) * marks;
   };
 
-  const submit = (e) => {
+  function submit() {
     const score = calsMarks();
     console.log(score);
     try {
@@ -127,12 +128,19 @@ function TakeExam() {
         },
         { merge: true }
       );
+      setDoc(
+        doc(db, "result", email),
+        {
+          [id]: score,
+        },
+        { merge: true }
+      );
     } catch (e) {
       alert("Error adding document: ", e);
     } finally {
-      window.location.href = "/";
+      window.history.back();
     }
-  };
+  }
 
   return (
     <div>
@@ -143,9 +151,11 @@ function TakeExam() {
       </Segment>
 
       <Segment inverted>
-        <Form>
+        <Form onSubmit={submit}>
           <Segment>
-            <Header>{question1.question}</Header>
+            <Segment>
+              <Header>{question1.question}</Header>
+            </Segment>
             <Form.Group inline>
               <div onChange={onChangeValue1}>
                 <ol>
@@ -188,7 +198,9 @@ function TakeExam() {
             </Form.Group>
           </Segment>
           <Segment>
-            <Header>{question2.question}</Header>
+            <Segment>
+              <Header>{question2.question}</Header>
+            </Segment>
             <Form.Group inline>
               <div onChange={onChangeValue2}>
                 <ol>
@@ -231,7 +243,10 @@ function TakeExam() {
             </Form.Group>
           </Segment>
           <Segment>
-            <Header>{question3.question}</Header>
+            <Segment>
+              <Header>{question3.question}</Header>
+            </Segment>
+
             <Form.Group inline>
               <div onChange={onChangeValue3}>
                 <ol>
@@ -274,7 +289,10 @@ function TakeExam() {
             </Form.Group>
           </Segment>
           <Segment>
-            <Header>{question4.question}</Header>
+            <Segment>
+              <Header>{question4.question}</Header>
+            </Segment>
+
             <Form.Group inline>
               <div onChange={onChangeValue4}>
                 <ol>
@@ -317,7 +335,10 @@ function TakeExam() {
             </Form.Group>
           </Segment>
           <Segment>
-            <Header>{question5.question}</Header>
+            <Segment>
+              <Header>{question5.question}</Header>
+            </Segment>
+
             <Form.Group inline>
               <div onChange={onChangeValue5}>
                 <ol>
@@ -360,7 +381,7 @@ function TakeExam() {
             </Form.Group>
           </Segment>
 
-          <Button primary type="submit" onClick={submit}>
+          <Button primary type="submit">
             Submit
           </Button>
         </Form>

@@ -10,8 +10,8 @@ function SetExam() {
   const auth = getAuth();
   const user = auth.currentUser;
   if (data.accountType === "Student" || data.accountType === "") {
+    window.history.back();
     alert("You are not allowed to visit this page of the application!");
-    window.location.href = "/";
   }
 
   const [examname, setExamname] = useState("");
@@ -128,6 +128,17 @@ function SetExam() {
     }
     try {
       setDoc(
+        doc(db, "examination", examid),
+        {
+          [examid]: user.email,
+        },
+        { merge: true }
+      );
+    } catch (e) {
+      alert("Error adding document: ", e);
+    }
+    try {
+      setDoc(
         doc(db, "examination", "all"),
         {
           [examid]: {
@@ -142,7 +153,7 @@ function SetExam() {
     } catch (e) {
       alert("Error adding document: ", e);
     } finally {
-      window.location.href = "/";
+      window.history.back();
     }
   };
 
