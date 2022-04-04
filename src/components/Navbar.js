@@ -35,15 +35,6 @@ function Navbar() {
             />
           </Link>
         )}
-        {data.loginStatus && (
-          <Link to="/takeexam">
-            <Menu.Item
-              name="Take exam"
-              active={activeItem === "takeexam"}
-              onClick={handleItemClick}
-            />
-          </Link>
-        )}
         <Menu.Menu position="right">
           {data.loginStatus && (
             <Link to="/">

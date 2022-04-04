@@ -1,10 +1,10 @@
 import React from "react";
 import { Container, Header } from "semantic-ui-react";
-
+import "../App.css";
 
 function Footer() {
   return (
-    <div>
+    <div className="footer">
       <br />
       <Container textAlign="center">
         <div className="footer">

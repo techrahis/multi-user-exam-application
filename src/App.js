@@ -20,13 +20,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/takeexam" element={<TakeExam />} />
+          <Route path="/exam/:id" element={<TakeExam />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/institutesignin" element={<InstituteSignin />} />
           <Route path="/setexam" element={<SetExam />} />
         </Routes>
-        <Footer />
       </LoginContextProvider>
+      {/* <Footer /> */}
     </div>
   );
 }

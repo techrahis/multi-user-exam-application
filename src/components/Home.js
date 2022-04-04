@@ -14,7 +14,6 @@ function Home() {
     const docRef = doc(db, "examination", "all");
     const docSnap = await getDoc(docRef);
     setData(Object.entries(docSnap.data()));
-    console.log(data);
   };
 
   return (
